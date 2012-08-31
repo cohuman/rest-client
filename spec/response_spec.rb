@@ -16,6 +16,12 @@ describe RestClient::Response do
     @response.to_i.should == 200
   end
 
+  it 'forces encoding to utf-8' do
+    response_string = 'abc'
+    response_string.should_receive(:force_encoding).with('utf-8')
+    RestClient::Response.create(response_string, @net_http_res, {})
+  end
+
   it "accepts nil strings and sets it to empty for the case of HEAD" do
     RestClient::Response.create(nil, @net_http_res, {}).should.to_s == ""
   end
